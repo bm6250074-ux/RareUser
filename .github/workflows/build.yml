@@ -1,4 +1,3 @@
-
 name: Build APK
 
 on:
@@ -14,6 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Unzip project if uploaded as zip
+        run: |
+          if [ -f RareUser.zip ]; then
+            mkdir -p /tmp/proj
+            unzip -oq RareUser.zip -d /tmp/proj
+            cp -r /tmp/proj/RareUser/. ./work_project 2>/dev/null || { mkdir -p work_project && cp -r /tmp/proj/RareUser/. work_project/; }
+          fi
 
       - uses: actions/setup-java@v4
         with:
